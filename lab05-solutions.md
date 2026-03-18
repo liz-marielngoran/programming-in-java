@@ -2,12 +2,12 @@
 
 ## 2) List<E> and its two implementations: ArrayList<E>, LinkedList<E>
 
-### 2) The faster loop
+### 1) The faster loop
 The second loop (the for-each loop) will finish in milliseconds, while the first loop could take minutes or even hours to finish for a million values.
 In fact concerning the first loop, A LinkedList is made of "nodes" where each node only knows about the next one. To find the i-th element, Java has to start at the very beginning and count one by one until it reaches that index.
 Although, for the second one, Instead of starting from the beginning every time, the Iterator stays at the current node and simply says, "Give me the next neighbor."
 
-### 3) Printout of the code
+### 2) Printout of the code
 
 The printout will be:
 ````
@@ -19,7 +19,7 @@ In fact, There are two different remove methods available in the List interface:
   In our code, the literal 2 was passed to the method. Java treats an unadorned integer literal as a primitive int. Therefore, it calls the first version: remove(int index).
 
 
-### 4) Printout of the code
+### 3) Printout of the code
 
 The printout will be:
 ````
@@ -28,7 +28,7 @@ The printout will be:
 ````
 These elements were "skipped" because they shifted into index positions that the loop counter had already passed.
 
-### 5) Differences between pieces of code
+### 4) Differences between pieces of code
 
 The output for the first block will be:
 ````
@@ -50,7 +50,7 @@ The List interface does have remove(int index). On Iteration 2, it tries to remo
 
 ## 3) Iterators, the for-each loop (aka. enhanced for loop), and forEach method
 
-### 1)  Rewriting
+### 2)  Rewriting
 ```
 List<Integer> lst = List.of(1, 2, 3, 4, 5);
 
@@ -78,7 +78,7 @@ lst.forEach(num -> System.out.println(num));
 
 ## 4) Queue<E>, Deque<E> and their implementations: PriorityQueue<E>, and ArrayDeque<E>
 
-### 1) Explanations
+### 2) Explanations
 
 Line 1 (The for loop): ````1 3 2 6 4 5````
 The documentation specifically states that the iterator does not guarantee any particular order.
@@ -174,7 +174,7 @@ public TreeSet<String> toUppercaseSet(TreeSet<String> inputSet) {
 If you key are enums, we use EnumMap.
 If we want the key sorted in a certain order, we use treeMap
 If we want to preserve the insertion order, we use LinkedHashMap
-If we want just a standard lookup table
+If we want just a standard lookup table, we use hashmap
 
 ### 2) Program that reads all words in a file and prints out how often each word occurred
 

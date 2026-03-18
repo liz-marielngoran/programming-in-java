@@ -4,7 +4,7 @@
 
 ### 1)  Benefits of using generic types
 Generics allow classes, methods, and interfaces to operate on different data types while keeping the code type-safe.
-Essentially, they act as "templates" where the specific data type is decided only when the code is used. They are safe and give allows the code to be reusable.
+Essentially, they act as "templates" where the specific data type is decided only when the code is used. They are safe and allows the code to be reusable.
 Using generics like List<Price> immediately tells other developers what the collection is intended to hold, making the codebase easier to maintain and navigate.
 Moreover, The compiler checks that you are using the correct data type while you are writing the code. This prevents Runtime Crashes by catching errors before the program even runs.
 
@@ -68,7 +68,7 @@ public class Main {
 }   
 ````
 
-### 7)
+### 7) Implementation
 
 ````
 package agh.ii.prinjava.lab04.exc04_01;
