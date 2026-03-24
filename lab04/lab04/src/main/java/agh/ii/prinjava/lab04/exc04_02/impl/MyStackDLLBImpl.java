@@ -25,7 +25,7 @@ public class MyStackDLLBImpl<E> implements MyStack<E> {
 
     @Override
     public int numOfElems() {
-        throw new IllegalStateException("To be implemented");
+        return elems.size();
     }
 
     @Override

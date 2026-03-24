@@ -190,9 +190,9 @@ Next, the instance initializer block is executed. In this block, `d4 = new D4()`
 Finally, the body of the `D9` constructor executes. The two `System.out.println` statements run, and then `d1 = new D1()` creates a new `D1` object. Since `D1` extends `B1`, this again triggers the constructor chain `B1()` followed by `D1()`.
 
 ### 3)Comparison of capabilities of constructors and factory methods
-We use factory methods creating instance at any time.
+We use factory methods for creating instance at any time.
 Constructors allocate memory directly to create a new object of the class instead of factory methods which can return an instance of a subclass or an interface's implement 
-Factory methods could recreate a pre-existent instance as Singleton, a kind of recycling. They are used when constructors are private and allow tio verify parameters before allocating memory for an object (if it is not yet created).
+Factory methods could recreate a pre-existent instance as Singleton, a kind of recycling. They are used when constructors are private and allow to verify parameters before allocating memory for an object (if it is not yet created).
 
 ### 4)applications of Singleton pattern
 
