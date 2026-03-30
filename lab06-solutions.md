@@ -502,6 +502,5 @@ public <T> Optional<List<T>> tailOf_v3(List<T> list) {
 - removeLast()
 - Peek()
 - dequeue()
-- 
 
 
