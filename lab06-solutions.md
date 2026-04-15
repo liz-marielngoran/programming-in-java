@@ -27,7 +27,6 @@ f3(x,y,z)=(√x2+y2+z2); x,y,z∈ℤ
 
 ### 3)anonymous functions
 
-"This" is a keyword used to reference a constructor when it is followed by () or an attribute when it is followed by a point
 ```
 import java.util.function.DoubleUnaryOperator;
 public class LambdaTest {
@@ -52,8 +51,7 @@ public class LambdaTest {
 ```
 
 ### 4) Code completion
- 
-It is a concept that allows a new class to inherit attributes and methods from an existing class. It is implemented with the keyword "extends".
+
 ```
  @FunctionalInterface
  interface FunIf<T, R> {
@@ -67,7 +65,7 @@ FunIf<String, Integer> f1 = s -> Integer.parseInt(s);
 // f2: Integer to String (Converts number 50 to text "50")
 FunIf<Integer, String> f2 = x -> String.valueOf(x);
 
-// f3: Double to Double (Returns the absolute value)
+// f3: Double to Double (Returns the root)
 FunIf<Double, Double> f3 = x -> Math.sqrt(x);
 
 // f4: Integer to Boolean (Checks if the number is even)
@@ -87,11 +85,11 @@ System.out.println(f1.apply("abc"))
 
 // f2: Integer to String (Converts number 50 to text "50")
 FunIf<Integer, String> f2 = String::valueOf;
-System.out.println(f1.apply(x))
+System.out.println(f2.apply(x))
 
-// f3: Double to Double (Returns the absolute value)
+// f3: Double to Double (Returns the root)
 FunIf<Double, Double> f3 = Math::sqrt;
-System.out.println(f1.apply(x))
+System.out.println(f3 .apply(x))
 
 // f4: Integer to Boolean (Checks if the number is even)
 FunIf<Integer, Boolean> f4 = x -> x % 2 == 0;
@@ -451,7 +449,7 @@ public static <T> Function<T, T> composeFunctions(List<Function<T, T>> functions
 
 ## 5) Dealing with optional data
 
-### 2) Pros and cons of the following approaches to represent a "no-valid-result" of a function/metho
+### 2) Pros and cons of the following approaches to represent a "no-valid-result" of a function/method
 
 #### Throwing an exception
 - Pros: Explicitly signals a failure; forces the caller to handle it (if checked).
@@ -471,9 +469,9 @@ The "tail" of a list is everything except the first element. If the list is empt
 #### Throwing an exception
 ````
 public <T> List<T> tailOf_v2(List<T> list) {
-if (list == null || list.isEmpty()) {
-throw new NoSuchElementException("List has no tail");
-}
+    if (list == null || list.isEmpty()) {
+    throw new NoSuchElementException("List has no tail");
+      }
 return list.subList(1, list.size());
 }
 ````

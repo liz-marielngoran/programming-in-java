@@ -61,7 +61,7 @@ public class paving stone extends rectangle {
     }
 ```
 ### 5)Polymorphism
-It is a concept that allows a value or a variable to have more than one type and to operations to be perfomed on values of more than one type. We have main three forms
+It is a concept that allows a value or a variable to have more than one type and to operations to be performed on values of more than one type. We have main three forms
 ad-hoc polymorphism, overriding, parametric polymorphism.
 
 ### 5.a)Ad-hoc polymorphism
@@ -134,7 +134,7 @@ void testTotalAreaWithKnownShapes() {
 
 ### 1) static variable, static constant, static method
     a static variable is a variable that is not instance_related. It is like a global variable.
-    a static constant is also a constante that is not instance-related. It is usable for all the object of the class and it is immutable.
+    a static constant is also a constant that is not instance-related. It is usable for all the object of the class and it is immutable.
     a Static method is a method that is still the same for all the instance of the class. It is like a global method.
 
 ### 2)Public visibility

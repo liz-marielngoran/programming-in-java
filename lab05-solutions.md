@@ -38,7 +38,7 @@ false
 [1, 2]
 ````
 The Collection interface does not have a remove(int index) method; it only has remove(Object o) that returns a boolean. 
-So When you call l1.remove(i), the compiler sees that i is an int. Since Collection only accepts an Object, Java autoboxes that int into an Integer an return a boolean for the loop. At the end, we got ````[1, 2]````
+So When you call l1.remove(i), the compiler sees that i is an int. Since Collection only accepts an Object, Java autoboxes that int into an Integer and return a boolean for the loop. At the end, we got ````[1, 2]````
 
 The output for the second block will be:
 ````

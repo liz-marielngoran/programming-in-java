@@ -12,7 +12,7 @@ Using constants in programming allows keep a value, the same, along the program 
 - Local variables: these variables will be constant only during the running of the methods or voids where they are declared. 
 - Instance Variable: it is a variable declared as constant for all the instance of the class.
 - static constants: it is a global constant for the class.
-- methods: it is a methods that is constant; its definition remains the same for all the instance.
+- methods: it is a method that is constant; its definition remains the same for all the instance.
 - classes: a final class is a class whose fields are final.
 
 ### 4) Questions
@@ -20,7 +20,7 @@ Using constants in programming allows keep a value, the same, along the program 
 The class is not immutable. In fact, if we have getter methods it will return the reference of the object and we could create methods to modify it. For instance add an element to a list.
 
 #### 4.2)If all the data fields in a class are private and of primitive types, and the class does not contain any setter methods, is the class immutable?
-, the class is immutable because data are of primitive types. In fact, even if we have a get method it will return a copy of the value of the object not its real address, in sort that it could be found and set.
+Yes, the class is immutable because data are of primitive types. In fact, even if we have a get method it will return a copy of the value of the object not its real address, in sort that it could be found and set.
 
 ### 5)Immutability?
 Values is a table. As we have a get method, it will return a pointer on its address. So we could easily add element to the tab.
@@ -50,7 +50,7 @@ Static member class is a nested class that is accessible without creating an ins
 #### 3.1)Can an inner class be used in a class other than the class in which it nests?
 No because an inner class is a non-static nested class.
 #### 3.2)Can the modifiers public, protected, private, and static be used for inner classes?
-Yes except static because an inner class is a non static nested class.
+Yes except static because an inner class is a non-static nested class.
 
 ### 4) Refactoring
 
