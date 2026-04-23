@@ -233,7 +233,154 @@ public class MatrixMultiply {
 
 ### 1) Apply parallel streams in proj2. Compare performance of these two solutions (i.e., stream vs. parallelStream based)
 
-For defining an immutable object, we must provide final access to the class and its fields and do not provide setters.
+we will just replace stream by parallelStream in the code then run
+
+````   
+private static Stream<Movie> moviesParallel() {
+        return ImdbTop250.movies().orElse(List.of()).parallelStream();
+    }
+    static Set<String> ex01(String director) {
+        return moviesParallel()
+                .filter(m -> m.directors().contains(director))
+                .map(Movie::title)
+                .collect(Collectors.toSet());
+    }
+ 
+    static Set<String> ex02(String actor) {
+        return moviesParallel()
+                .filter(m -> m.actors().contains(actor))
+                .map(Movie::title)
+                .collect(Collectors.toSet());
+    }
+ 
+    static Map<String, Long> ex03() {
+        return moviesParallel()
+                .flatMap(m -> m.directors().stream())
+                .collect(Collectors.groupingByConcurrent(
+                        director -> director,
+                        Collectors.counting()
+                ));
+    }
+ 
+    static Map<String, Long> ex04() {
+        // Sort + limit must be sequential — parallelism helps the upstream grouping
+        return ex03().entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue(Comparator.reverseOrder()))
+                .limit(10)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+    }
+ 
+    static Map<String, Set<String>> ex05() {
+        Set<String> top10Directors = ex04().keySet();
+        return moviesParallel()
+                .flatMap(m -> m.directors().stream()
+                        .filter(top10Directors::contains)
+                        .map(d -> Map.entry(d, m.title()))
+                )
+                .collect(Collectors.groupingByConcurrent(
+                        Map.Entry::getKey,
+                        Collectors.mapping(Map.Entry::getValue, Collectors.toSet())
+                ));
+    }
+ 
+    static Map<String, Long> ex06() {
+        return moviesParallel()
+                .flatMap(m -> m.actors().stream())
+                .collect(Collectors.groupingByConcurrent(
+                        actor -> actor,
+                        Collectors.counting()
+                ));
+    }
+ 
+    static Map<String, Long> ex07() {
+        return ex06().entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue(Comparator.reverseOrder()))
+                .limit(9)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+    }
+ 
+    static Map<String, Set<String>> ex08() {
+        Set<String> top9Actors = ex07().keySet();
+        return moviesParallel()
+                .flatMap(m -> m.actors().stream()
+                        .filter(top9Actors::contains)
+                        .map(actor -> Map.entry(actor, m.title()))
+                )
+                .collect(Collectors.groupingByConcurrent(
+                        Map.Entry::getKey,
+                        Collectors.mapping(Map.Entry::getValue, Collectors.toSet())
+                ));
+    }
+ 
+    static Map<String, Long> ex09() {
+        return moviesParallel()
+                .flatMap(m -> {
+                    List<String> actors = List.copyOf(m.actors());
+                    List<String> pairs = new ArrayList<>();
+                    for (int i = 0; i < actors.size(); i++) {
+                        for (int j = i + 1; j < actors.size(); j++) {
+                            String a = actors.get(i), b = actors.get(j);
+                            pairs.add(a.compareTo(b) <= 0 ? a + ", " + b : b + ", " + a);
+                        }
+                    }
+                    return pairs.stream();
+                })
+                .collect(Collectors.groupingByConcurrent(pair -> pair, Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue(Comparator.reverseOrder()))
+                .limit(5)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+    }
+ 
+    static Map<String, Set<String>> ex10() {
+        Set<String> top5Pairs = ex09().keySet();
+        return moviesParallel()
+                .flatMap(m -> {
+                    List<String> actors = List.copyOf(m.actors());
+                    List<Map.Entry<String, String>> pairs = new ArrayList<>();
+                    for (int i = 0; i < actors.size(); i++) {
+                        for (int j = i + 1; j < actors.size(); j++) {
+                            String a = actors.get(i), b = actors.get(j);
+                            String pair = a.compareTo(b) <= 0 ? a + ", " + b : b + ", " + a;
+                            if (top5Pairs.contains(pair)) pairs.add(Map.entry(pair, m.title()));
+                        }
+                    }
+                    return pairs.stream();
+                })
+                .collect(Collectors.groupingByConcurrent(
+                        Map.Entry::getKey,
+                        Collectors.mapping(Map.Entry::getValue, Collectors.toSet())
+                ));
+    }
+````
+
+#### Comparison and interpretation
+
+1. Parallel was slower for simple tasks (ex01, ex02).
+   The reason is that Java still needs to split the work and manage multiple threads even for small tasks, and that setup ends up taking longer than just running it normally.
+
+2. ex09 and ex10 benefited the most. These methods generate all possible actor pairs, so there is enough computation happening that splitting the work across threads actually makes a noticeable difference.
+
+3. The dataset is only 250 movies. This is likely the main reason parallel did not help much overall. 250 items is simply not enough to see a real improvement. With thousands or millions of records the results would probably look very different.
+ 
+4. Sorting cannot be paralleled. For the top-10 and top-9 methods, the sorting step always runs sequentially regardless, so parallel can only speed up the part before the sort, which limits the overall gain.
+
+5. In conclusion, Parallel does not automatically mean faster. The thread management overhead can actually make things worse on small datasets. Parallel streams are only worth using when the dataset is large and the computation per element is heavy enough to justify the cost.
 
 ### 2) Using parallel streams, find all files in a directory that contain a given word
 
